@@ -1,0 +1,8 @@
+PLACEHOLDER: Add your binary favicon files here with exact names:
+- apple-touch-icon.png  (180x180)
+- favicon-32.png         (32x32)
+- favicon-16.png         (16x16)
+- favicon-192.png        (192x192)
+- favicon-512.png        (512x512)
+
+Once you add the files, delete this placeholder file.
