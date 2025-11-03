@@ -1,160 +1,153 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>6-DoF Robotic Arm with Inverse Kinematics | Markku Kirjava</title>
-  <meta name="description" content="Case study: Implementation of inverse kinematics algorithms for a 6-axis robotic arm on Arduino platform with real-time servo control.">
-  <link rel="stylesheet" href="/style.css">
-  <!-- Favicon placeholders (place actual image files in /assets/favicon/) -->
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16.png">
-  <link rel="manifest" href="/assets/favicon/site.webmanifest">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inverse Kinematics on Arduino – 6 DoF Robotic Arm | Markku Kirjava</title>
+  <meta name="description" content="Implementation of inverse kinematics for a 6-DoF robotic arm using Arduino Uno, MG996R servos and PCA9685 driver.">
+  <meta name="keywords" content="Inverse Kinematics, Robotic Arm, Arduino, C++, Embedded Systems, Servo Control">
+  <meta name="author" content="Markku Kirjava">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Inverse Kinematics on Arduino – 6 DoF Robotic Arm | Markku Kirjava">
+  <meta property="og:description" content="3D inverse kinematics and servo control on Arduino for a 6-axis robotic arm.">
+  <meta property="og:url" content="https://markku-github.github.io/projects/robotic_arm.html">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/project.css">
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
+  <link rel="icon" type="image/x-icon" href="../assets/favicon/favicon.ico">
+  <link rel="manifest" href="../assets/favicon/site.webmanifest">
   <meta name="msapplication-TileColor" content="#042b6b">
   <meta name="theme-color" content="#042b6b">
-  <style>
-    /* Project page specific styles */
-    .project-hero{background:linear-gradient(180deg,var(--accent-deep),var(--accent-strong));color:#fff;padding:32px 24px;border-radius:10px;margin:24px auto}
-    .project-hero h1{margin:0 0 12px;font-size:1.8rem}
-    .project-meta{display:flex;gap:16px;flex-wrap:wrap;margin:16px 0;font-size:0.9rem}
-    .project-meta span{background:rgba(255,255,255,0.15);padding:6px 12px;border-radius:4px}
-    .content-section{background:var(--card);padding:28px;border-radius:8px;margin:20px 0;box-shadow:0 2px 8px rgba(2,6,23,0.04)}
-    .content-section h2{color:var(--accent-deep);margin-top:0}
-    .content-section h3{color:var(--accent-strong);margin-top:20px}
-    .tech-stack{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
-    .tech-badge{background:linear-gradient(135deg, var(--accent), var(--accent-strong));color:#fff;padding:6px 12px;border-radius:4px;font-size:0.85rem;font-weight:600}
-    pre{background:#f8f9fa;border-left:3px solid var(--accent);padding:16px;border-radius:4px;overflow-x:auto;font-size:0.9rem;line-height:1.5}
-    code{font-family:'Courier New', monospace;color:var(--accent-deep)}
-    .key-features{list-style:none;padding:0}
-    .key-features li{padding:8px 0 8px 28px;position:relative}
-    .key-features li:before{content:"✓";color:var(--accent);font-weight:bold;position:absolute;left:0}
-    .back-link{display:inline-block;margin:20px 0;color:var(--accent);text-decoration:none;font-weight:600}
-    .back-link:hover{text-decoration:underline}
-  </style>
 </head>
 <body>
-  <div class="container">
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="site-title"><a href="../index.html" style="color:inherit;text-decoration:none">Markku Kirjava</a></h1>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#projects">Projects</a>
+        <a href="../index.html#skills">Skills</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+
     <div class="project-hero">
-      <h1>6-DoF Robotic Arm with Inverse Kinematics</h1>
-      <p>Real-time kinematics computation and servo control on Arduino for precise robotic manipulation</p>
+      <h1>Inverse Kinematics on Arduino: 6-DoF Robotic Arm</h1>
+      <p class="lead">3D coordinate-based motion control and servo actuation using C++ on Arduino Uno</p>
       <div class="project-meta">
-        <span>Arduino / C++</span>
-        <span>Real-time Control</span>
-        <span>Kinematics</span>
-        <span>2024</span>
+        <span>Arduino Uno</span>
+        <span>C++</span>
+        <span>Servo Control</span>
+        <span>2025</span>
       </div>
     </div>
+
+    <img src="../img/robotic_arm/robotic_arm.jpg" alt="6-DoF Robotic Arm with Arduino Uno and MG996R servos" class="project-image">
 
     <div class="content-section">
       <h2>Project Overview</h2>
-      <p>This project implements inverse kinematics (IK) algorithms for a 6-degree-of-freedom robotic arm running on an Arduino microcontroller. The system calculates joint angles in real-time to position the end-effector at desired coordinates, enabling precise manipulation tasks.</p>
-      
-      <h3>Challenge</h3>
-      <p>Computing inverse kinematics for a 6-DoF arm requires solving complex trigonometric equations under strict timing constraints. The Arduino's limited processing power (16 MHz, 2KB RAM) demanded careful optimization of floating-point operations and memory management while maintaining control loop frequency of at least 50 Hz for smooth motion.</p>
-      
-      <h3>Solution</h3>
-      <p>I developed a custom IK solver using geometric and analytical methods optimized for the Arduino platform. The implementation includes:</p>
+      <p>This project implements inverse kinematics (IK) for a six-degree-of-freedom robotic arm controlled by an Arduino Uno. The system computes the joint angles needed to position the gripper in 3D space and tilt it to a defined global Z-axis angle.</p>
+
+      <h3>Development Goals</h3>
+      <p>The main goals were to learn practical robotics kinematics, build a modular embedded software architecture, and implement 3D coordinate-based servo control within the Arduino’s limited resources.</p>
+    </div>
+
+    <div class="content-section">
+      <h2>Hardware Setup</h2>
       <ul class="key-features">
-        <li>Fast inverse kinematics solver with <20ms computation time</li>
-        <li>Servo PWM control with position interpolation for smooth trajectories</li>
-        <li>Collision detection and workspace boundary checking</li>
-        <li>Serial command interface for real-time position updates</li>
-        <li>Memory-efficient matrix operations using fixed-point arithmetic where applicable</li>
+        <li>6 × MG996R servo motors</li>
+        <li>PCA9685 16-channel PWM driver (Adafruit library)</li>
+        <li>Arduino Uno microcontroller</li>
+        <li>External 5 V power supply for servos</li>
+        <li>Aluminum 6 DoF arm frame (custom assembly)</li>
       </ul>
+      <p>The PCA9685 module communicates via I²C and provides independent PWM signals for each servo. An external 5 V supply powers the motors safely, while the Arduino handles only logic control.</p>
     </div>
 
     <div class="content-section">
-      <h2>Technical Stack</h2>
-      <div class="tech-stack">
-        <span class="tech-badge">C++</span>
-        <span class="tech-badge">Arduino</span>
-        <span class="tech-badge">Servo Control</span>
-        <span class="tech-badge">Trigonometry</span>
-        <span class="tech-badge">Linear Algebra</span>
-        <span class="tech-badge">Serial Communication</span>
-      </div>
+      <h2>Software Architecture</h2>
+      <p>The firmware is fully modular and divided into three main components:</p>
+      <ul class="key-features">
+        <li><b>ik_solver.cpp / .h</b> — Computes joint angles from (X, Y, Z, tilt, rotate)</li>
+        <li><b>servo_driver.cpp / .h</b> — Handles servo movement and angle limits via PCA9685</li>
+        <li><b>interface.cpp / .h</b> — Parses serial commands like <code>GOTO X=150 Y=0 Z=120 TILT=90</code></li>
+      </ul>
+      <p>Each module is independent, making the system easy to extend (e.g., adding sensor feedback or trajectory planning later).</p>
     </div>
 
     <div class="content-section">
-      <h2>Key Implementation Details</h2>
-      
-      <h3>Inverse Kinematics Algorithm</h3>
-      <p>The IK solver uses a hybrid approach combining geometric decomposition for the first three joints and analytical solutions for wrist orientation:</p>
-      
-      <pre><code>// Simplified IK calculation for shoulder and elbow
-void calculateIK(float x, float y, float z, float* angles) {
-  // Calculate base rotation
-  angles[0] = atan2(y, x);
-  
-  // Solve 2D problem in vertical plane
-  float r = sqrt(x*x + y*y);
-  float s = z - BASE_HEIGHT;
-  float d = sqrt(r*r + s*s);
-  
-  // Law of cosines for elbow angle
-  float cos_elbow = (d*d - L1*L1 - L2*L2) / (2*L1*L2);
-  angles[2] = acos(constrain(cos_elbow, -1.0, 1.0));
-  
-  // Calculate shoulder angle
-  float alpha = atan2(s, r);
-  float beta = acos((L1*L1 + d*d - L2*L2) / (2*L1*d));
-  angles[1] = alpha + beta;
-  
-  // Wrist orientation (simplified)
-  angles[3] = angles[4] = angles[5] = 0;
+      <h2>Inverse Kinematics Implementation</h2>
+      <p>The IK solver uses geometric relationships between link lengths and angles to find a valid set of joint positions for a given target. The model includes real-world offsets and measured angle corrections for physical servo mounting differences.</p>
+      <pre><code>// Example from ik_solver.cpp
+Angles solveIK(float x, float y, float z, float wristTilt, float wristRotate) {
+  Angles a;
+  a.theta0 = atan2(y, x);      // base rotation
+  // project wrist length and solve shoulder/elbow geometry
+  // includes measured link lengths: L1–L5
+  ...
+  return a;
 }</code></pre>
+      <p>The system currently supports up to four active degrees of freedom (Base, Shoulder, Elbow, Wrist Tilt) and calculates the gripper orientation relative to the global Z-axis.</p>
+    </div>
 
-      <h3>Performance Optimization</h3>
-      <p>To meet real-time requirements on the Arduino's limited hardware:</p>
+    <div class="content-section">
+      <h2>Servo Control & Serial Interface</h2>
+      <p>Each servo is smoothly interpolated between angles to avoid jerky movements. Commands are sent over USB as simple text lines:</p>
+      <pre><code>GOTO X=150 Y=0 Z=120 TILT=90 ROTATE=90
+GRIP OPEN
+GRIP CLOSE</code></pre>
+      <p>The firmware validates coordinate reachability and servo limits before movement to ensure safe operation.</p>
+    </div>
+
+    <div class="content-section">
+      <h2>Mechanical Model</h2>
+      <p>Link lengths and offsets used in the calculation:</p>
       <ul>
-        <li>Precomputed lookup tables for common trigonometric values</li>
-        <li>Avoided dynamic memory allocation; stack-based arrays only</li>
-        <li>Integer math for servo PWM timing (microsecond precision)</li>
-        <li>Optimized control loop to run at 50+ Hz consistently</li>
+        <li>L1 = 85 mm — Base height</li>
+        <li>L2 = 23 mm — Horizontal offset to shoulder tilt axis</li>
+        <li>L3 = 105 mm — Upper arm</li>
+        <li>L4 = 150 mm — Forearm</li>
+        <li>L5 = 180 mm — Wrist + gripper length</li>
       </ul>
-
-      <h3>Servo Control System</h3>
-      <pre><code>// Smooth servo interpolation
-void moveToPosition(float* target_angles) {
-  const int STEPS = 20;
-  float delta[6];
-  
-  for(int i = 0; i < 6; i++) {
-    delta[i] = (target_angles[i] - current_angles[i]) / STEPS;
-  }
-  
-  for(int step = 0; step < STEPS; step++) {
-    for(int i = 0; i < 6; i++) {
-      current_angles[i] += delta[i];
-      servos[i].writeMicroseconds(angleToMicros(i, current_angles[i]));
-    }
-    delay(20); // 50 Hz update rate
-  }
-}</code></pre>
+      <p>All coordinates are interpreted in a right-handed 3D coordinate system with the base as the origin.</p>
     </div>
 
     <div class="content-section">
-      <h2>Results & Metrics</h2>
+      <h2>Results & Lessons Learned</h2>
       <ul class="key-features">
-        <li>IK computation time: 12-18 ms (target: <20 ms)</li>
-        <li>Control loop frequency: 50 Hz sustained</li>
-        <li>Positioning accuracy: ±5 mm in 500 mm workspace</li>
-        <li>Memory usage: 1.8 KB RAM (90% of available)</li>
-        <li>Smooth trajectory execution with interpolation</li>
+        <li>Reliable 3D positioning of the gripper using geometric IK</li>
+        <li>Safe servo motion with angle limits and smooth interpolation</li>
+        <li>Modular C++ design for debuggable and extensible code</li>
       </ul>
-      
-      <h3>Lessons Learned</h3>
-      <p>This project reinforced the importance of algorithm optimization for resource-constrained systems. Profiling revealed that over 60% of computation time was spent in trigonometric functions, leading to the lookup table optimization. Working within Arduino's memory limitations taught valuable lessons about stack vs. heap allocation trade-offs.</p>
+      <p>This project was a practical exercise in applying mathematics and embedded software to a real mechanical system. It highlighted the value of step-wise development — starting from 2D IK, then expanding to 3D and adding wrist control — to manage complexity and ensure reliability.</p>
     </div>
 
     <div class="content-section">
       <h2>Source Code & Documentation</h2>
-      <p>The complete source code, including test harnesses and documentation, is available on GitHub:</p>
-      <p><a href="https://github.com/Markku-github/Inverse-Kinematics-on-Arduino-6-DoF-Robotic-Arm" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:600">View on GitHub →</a></p>
+      <p>All source files and a detailed technical report are available on GitHub.</p>
+      <p style="margin-top:24px">
+        <a href="https://github.com/Markku-github/Inverse-Kinematics-on-Arduino-6-DoF-Robotic-Arm" class="github-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+      </p>
     </div>
 
-    <a href="/" class="back-link">← Back to Portfolio</a>
-  </div>
+    <a href="../index.html#projects" class="back-link" style="margin-top:32px">← Back to Projects</a>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>&copy; <span id="year"></span> Markku Kirjava — Embedded Systems Engineer</small>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
 </body>
 </html>

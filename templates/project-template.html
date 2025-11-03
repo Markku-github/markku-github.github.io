@@ -1,71 +1,165 @@
 <!--
   Project page template
   - This file is a reusable template for creating new project case-study pages.
-  - NOT linked from the site by default. Place a copy under projects/ and adjust paths when used.
-  - Replace {{PLACEHOLDER}} values and remove this comment block before publishing.
+  - Copy this file to projects/ folder and rename it (e.g., projects/my-project.html)
+  - Replace {{PLACEHOLDERS}} with your project details
+  - Update paths (../ for projects folder, or / for root)
+  - See PROJECT_TEMPLATE.md for detailed instructions
 -->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{PROJECT_TITLE}} | Markku Kirjava</title>
   <meta name="description" content="{{SHORT_DESCRIPTION}}">
-  <!-- Adjust stylesheet path if you move this file to another folder -->
-  <link rel="stylesheet" href="/style.css">
-  <!-- Optional: add Open Graph tags for project-specific sharing -->
-  <meta property="og:title" content="{{PROJECT_TITLE}}">
+  <meta name="keywords" content="{{KEYWORDS}}">
+  <meta name="author" content="Markku Kirjava">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{{PROJECT_TITLE}} | Markku Kirjava">
   <meta property="og:description" content="{{SHORT_DESCRIPTION}}">
+  <meta property="og:url" content="https://markku-github.github.io/projects/{{PROJECT_FILE}}.html">
+  
+  <!-- Adjust paths: use ../ if in projects/ folder -->
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/project.css">
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
+  <link rel="icon" type="image/x-icon" href="../assets/favicon/favicon.ico">
+  <link rel="manifest" href="../assets/favicon/site.webmanifest">
+  <meta name="msapplication-TileColor" content="#042b6b">
+  <meta name="theme-color" content="#042b6b">
 </head>
 <body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="site-title"><a href="../index.html" style="color:inherit;text-decoration:none">Markku Kirjava</a></h1>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#projects">Projects</a>
+        <a href="../index.html#skills">Skills</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
   <main class="container">
-    <header class="project-hero" style="background:linear-gradient(180deg,var(--accent-deep),var(--accent-strong));color:#fff;padding:32px;border-radius:10px;margin:24px 0;">
+    <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+
+    <div class="project-hero">
       <h1>{{PROJECT_TITLE}}</h1>
       <p class="lead">{{ONE_LINE_SUMMARY}}</p>
-      <p>
-        <strong>Role:</strong> {{ROLE}} &nbsp; • &nbsp;
-        <strong>Year:</strong> {{YEAR}} &nbsp; • &nbsp;
-        <strong>Stack:</strong> {{TECH_STACK}}
-      </p>
-    </header>
+      <div class="project-meta">
+        <span>{{TECH_1}}</span>
+        <span>{{TECH_2}}</span>
+        <span>{{TECH_3}}</span>
+        <span>{{YEAR}}</span>
+      </div>
+    </div>
 
-    <section class="content-section">
+    <!-- Project Image Placeholder -->
+    <div class="image-placeholder">
+      📷 Add main project image here (remove placeholder div and add: &lt;img src="../img/{{PROJECT}}/main.jpg" alt="{{PROJECT_TITLE}}" class="project-image"&gt;)
+    </div>
+
+    <div class="content-section">
       <h2>Project Overview</h2>
-      <p>{{OVERVIEW_LONG}}</p>
-    </section>
-
-    <section class="content-section">
-      <h2>Challenge</h2>
-      <p>{{CHALLENGE}}</p>
-
+      <p>{{OVERVIEW_PARAGRAPH}}</p>
+      
+      <h3>Challenge</h3>
+      <p>{{CHALLENGE_DESCRIPTION}}</p>
+      
       <h3>Solution</h3>
-      <p>{{SOLUTION}}</p>
-
-      <h3>Key Features</h3>
+      <p>{{SOLUTION_DESCRIPTION}}</p>
       <ul class="key-features">
-        <li>{{FEATURE_1}}</li>
-        <li>{{FEATURE_2}}</li>
-        <li>{{FEATURE_3}}</li>
+        <li>{{KEY_FEATURE_1}}</li>
+        <li>{{KEY_FEATURE_2}}</li>
+        <li>{{KEY_FEATURE_3}}</li>
+        <li>{{KEY_FEATURE_4}}</li>
       </ul>
-    </section>
+    </div>
 
-    <section class="content-section">
-      <h2>Technical Details</h2>
-      <p>Implementation notes and key code snippets (trim to the essential parts; link full code on GitHub).</p>
-      <pre><code>// Example code snippet
-// Replace with a short, focused example that illustrates an important technique
-void example() {
-  // ...
-}
+    <div class="content-section">
+      <h2>Technical Stack</h2>
+      <div class="tech-stack">
+        <span class="tech-badge">{{TECH_1}}</span>
+        <span class="tech-badge">{{TECH_2}}</span>
+        <span class="tech-badge">{{TECH_3}}</span>
+        <span class="tech-badge">{{TECH_4}}</span>
+      </div>
+    </div>
+
+    <!-- Architecture/Diagram Placeholder -->
+    <div class="image-placeholder">
+      📊 Add architecture diagram or system overview (optional)
+    </div>
+
+    <div class="content-section">
+      <h2>Key Implementation Details</h2>
+      
+      <h3>{{TECHNICAL_TOPIC_1}}</h3>
+      <p>{{TECHNICAL_DESCRIPTION_1}}</p>
+      
+      <pre><code>// {{CODE_EXAMPLE_1_DESCRIPTION}}
+{{CODE_SNIPPET_1}}
 </code></pre>
-    </section>
 
-    <section class="content-section">
+      <h3>{{TECHNICAL_TOPIC_2}}</h3>
+      <p>{{TECHNICAL_DESCRIPTION_2}}</p>
+      <ul class="key-features">
+        <li>{{DETAIL_1}}</li>
+        <li>{{DETAIL_2}}</li>
+        <li>{{DETAIL_3}}</li>
+      </ul>
+    </div>
+
+    <!-- Demo/Results Image Placeholder -->
+    <div class="image-placeholder">
+      🎥 Add demo video, GIF, or results visualization (optional)
+    </div>
+
+    <div class="content-section">
       <h2>Results & Metrics</h2>
-      <p>{{RESULTS_SUMMARY}}</p>
-    </section>
+      <ul class="key-features">
+        <li>{{METRIC_1}} ✓</li>
+        <li>{{METRIC_2}} ✓</li>
+        <li>{{METRIC_3}} ✓</li>
+      </ul>
+      
+      <h3>Lessons Learned</h3>
+      <p>{{LESSONS_LEARNED}}</p>
+    </div>
 
-    <section class="content-section">
+    <div class="content-section">
+      <h2>Source Code & Documentation</h2>
+      <p>{{GITHUB_DESCRIPTION}}</p>
+      <ul class="key-features">
+        <li>{{REPO_FEATURE_1}}</li>
+        <li>{{REPO_FEATURE_2}}</li>
+        <li>{{REPO_FEATURE_3}}</li>
+      </ul>
+      <p style="margin-top:24px">
+        <a href="{{GITHUB_URL}}" class="github-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+      </p>
+    </div>
+
+    <a href="../index.html#projects" class="back-link" style="margin-top:32px">← Back to Projects</a>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>&copy; <span id="year"></span> Markku Kirjava — Embedded Systems Engineer</small>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
+
       <h2>Further Reading</h2>
       <p>Source code: <a href="{{GITHUB_URL}}">{{GITHUB_URL}}</a></p>
       <p>Documentation / Drawings: {{DOC_LINKS}}</p>

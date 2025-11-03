@@ -25,8 +25,11 @@ This portfolio highlights my expertise in:
 ```
 .
 ├── index.html              # Main portfolio page
+├── favicon.ico             # Root favicon for legacy browsers
+├── robots.txt              # Search engine crawling instructions
 ├── css/
-│   └── style.css           # Global styles and theme
+│   ├── style.css           # Global styles and theme
+│   └── project.css         # Project page-specific styles
 ├── js/
 │   └── main.js             # Interactive features (project cards, footer year)
 ├── projects/
@@ -34,9 +37,12 @@ This portfolio highlights my expertise in:
 ├── templates/
 │   ├── project-template.html   # Template for new projects
 │   └── PROJECT_TEMPLATE.md     # Project creation checklist
+├── img/
+│   ├── profile_picture/    # Profile images
+│   └── robotic_arm/        # Robotic arm project images
 ├── assets/
-│   └── favicon/            # Favicon assets (placeholder)
-├── img/                    # Project images
+│   └── favicon/            # Complete favicon set (16x16 to 512x512)
+├── .gitignore              # Git ignore rules
 └── README.md
 ```
 
@@ -106,6 +112,23 @@ Edit CSS variables in `css/style.css`:
 - Update `index.html` for About, Skills, and Contact sections
 - Add project pages in `projects/` directory
 - Modify interactive behavior in `js/main.js`
+
+### Local Development
+Run a local server to preview changes:
+```bash
+# Python 3
+python -m http.server 8000
+
+# Then open http://localhost:8000 in your browser
+```
+
+**Testing checklist:**
+- ✅ All pages load correctly
+- ✅ Images display properly
+- ✅ Navigation links work
+- ✅ Responsive design on mobile/tablet/desktop
+- ✅ Project cards are clickable
+- ✅ GitHub links open in new tabs
 
 ## Contact
 
