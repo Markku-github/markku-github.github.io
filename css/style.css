@@ -86,8 +86,6 @@ section:last-of-type{border-bottom:none}
 .skill-category h3{margin:0 0 10px;color:var(--accent-strong);font-size:1rem}
 .skill-category p{margin:0;line-height:1.8;color:var(--text-color)}
 
-.projects-list{padding-left:20px}
-
 /* Footer */
 .site-footer{padding:18px 0;color:var(--muted);text-align:center}
 
@@ -119,3 +117,20 @@ html{scroll-behavior:smooth}
 
 /* Minor utility */
 .muted{color:var(--muted)}
+
+/* Skip to content link for accessibility */
+.skip-link{
+	position:absolute;
+	top:-40px;
+	left:0;
+	background:var(--accent);
+	color:#fff;
+	padding:8px 16px;
+	text-decoration:none;
+	z-index:100;
+	border-radius:0 0 4px 0;
+	font-weight:600;
+}
+.skip-link:focus{
+	top:0;
+}
