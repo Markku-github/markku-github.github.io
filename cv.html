@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curriculum Vitae | Markku Kirjava</title>
+  <meta name="description" content="CV of Markku Kirjava - Embedded Systems Engineer specializing in firmware development, RTOS, and embedded Linux.">
+  <meta name="keywords" content="CV, Resume, Embedded Systems Engineer, Firmware Developer, Markku Kirjava">
+  <meta name="author" content="Markku Kirjava">
+  
+  <!-- Security headers -->
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+  
+  <!-- Prevent search engine indexing and crawling -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
+
+  <!-- Open Graph / Social Media (minimal, no image to avoid scraping) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://markku-github.github.io/cv.html">
+  <meta property="og:title" content="Curriculum Vitae | Markku Kirjava">
+  <meta property="og:description" content="CV of Markku Kirjava - Embedded Systems Engineer">
+
+  <!-- No canonical URL - page should not be indexed -->
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/project.css">
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="manifest" href="assets/favicon/site.webmanifest">
+  <meta name="msapplication-TileColor" content="#042b6b">
+  <meta name="theme-color" content="#042b6b">
+  
+  <style>
+    .cv-viewer {
+      background: var(--card);
+      border-radius: 10px;
+      padding: 24px;
+      margin: 24px 0;
+      box-shadow: 0 4px 16px rgba(2,6,23,0.08);
+    }
+    
+    .cv-embed {
+      width: 100%;
+      height: 800px;
+      border: 1px solid rgba(2,6,23,0.1);
+      border-radius: 8px;
+      background: #f8f9fa;
+    }
+    
+    .cv-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .cv-notice {
+      background: linear-gradient(135deg, rgba(7,116,187,0.05), rgba(4,51,130,0.05));
+      border-left: 4px solid var(--accent);
+      padding: 16px 20px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    
+    @media (max-width: 700px) {
+      .cv-embed {
+        height: 600px;
+      }
+      
+      .cv-actions {
+        flex-direction: column;
+      }
+      
+      .cv-actions .btn,
+      .cv-actions .github-link {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="site-title"><a href="index.html" style="color:inherit;text-decoration:none">Markku Kirjava</a></h1>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="index.html#about">About</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#skills">Skills</a>
+        <a href="cv.html">CV</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" id="main-content">
+    <a href="index.html" class="back-link">← Back to Home</a>
+
+    <div class="project-hero">
+      <h1>Curriculum Vitae</h1>
+      <p class="lead">Professional background, education, and technical expertise</p>
+      <div class="project-meta">
+        <span>Embedded Systems Engineer</span>
+        <span>Master's Student</span>
+        <span>Updated 2025</span>
+      </div>
+    </div>
+
+    <div class="cv-viewer">
+      <div class="cv-notice">
+        <strong>📄 View or Download</strong><br>
+        You can view my CV directly below or download the PDF for offline viewing. The CV includes detailed information about my education, work experience, technical skills, and projects.
+      </div>
+
+      <div class="cv-actions">
+        <a href="docs/CV_Markku_Kirjava.pdf" class="github-link" download rel="nofollow noopener noreferrer">
+          📥 Download PDF
+        </a>
+        <a href="docs/CV_Markku_Kirjava.pdf" target="_blank" rel="nofollow noopener noreferrer" class="btn primary">
+          🔗 Open in New Tab
+        </a>
+      </div>
+
+      <iframe 
+        src="docs/CV_Markku_Kirjava.pdf" 
+        class="cv-embed"
+        title="Markku Kirjava - Curriculum Vitae"
+        type="application/pdf">
+        <p>Your browser does not support embedded PDFs. <a href="docs/CV_Markku_Kirjava.pdf" download rel="nofollow">Download the CV instead</a>.</p>
+      </iframe>
+
+      <div class="cv-actions">
+        <a href="docs/CV_Markku_Kirjava.pdf" class="github-link" download rel="nofollow noopener noreferrer">
+          📥 Download PDF
+        </a>
+        <a href="index.html#contact" class="btn primary" rel="nofollow">
+          📧 Contact Me
+        </a>
+      </div>
+    </div>
+
+    <a href="index.html" class="back-link" style="margin-top:32px">← Back to Home</a>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>&copy; <span id="year"></span> Markku Kirjava — Embedded Systems Engineer</small>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

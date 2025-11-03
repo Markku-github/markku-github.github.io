@@ -4,8 +4,28 @@
 User-agent: *
 Allow: /
 
+# Disallow crawling of CV page and docs folder (contains personal information)
+Disallow: /cv.html
+Disallow: /docs/
+
+# Disallow indexing of profile picture to prevent it appearing in image search
+Disallow: /img/profile_picture/
+
+# Block specific bots known for scraping contact information
+User-agent: EmailCollector
+Disallow: /
+
+User-agent: EmailSiphon
+Disallow: /
+
+User-agent: EmailWolf
+Disallow: /
+
+User-agent: ExtractorPro
+Disallow: /
+
+User-agent: CopyRightCheck
+Disallow: /
+
 # Sitemap location
 Sitemap: https://markku-github.github.io/sitemap.xml
-
-# Disallow crawling of specific directories if needed
-# (Currently allowing everything)

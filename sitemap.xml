@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Main portfolio page - highest priority -->
   <url>
     <loc>https://markku-github.github.io/</loc>
     <lastmod>2025-11-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
+  
+  <!-- Project pages - add new projects here with priority 0.8 -->
   <url>
     <loc>https://markku-github.github.io/projects/robotic_arm.html</loc>
     <lastmod>2025-11-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  
+  <!-- Note: cv.html is intentionally excluded from sitemap (privacy protection) -->
 </urlset>
