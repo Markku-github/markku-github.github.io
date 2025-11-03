@@ -1,0 +1,11 @@
+# robots.txt for markku-github.github.io
+
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+
+# Sitemap location (optional - can add this later if create a sitemap)
+# Sitemap: https://markku-github.github.io/sitemap.xml
+
+# Disallow crawling of specific directories if needed
+# (Currently allowing everything)
