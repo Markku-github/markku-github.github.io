@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Embedded STM32 FreeRTOS Cooling System | Markku Kirjava</title>
+  <meta name="description" content="Real-time multitasking cooling control system built on STM32F767ZI using FreeRTOS. Demonstrates task scheduling, temperature monitoring, LED control, and watchdog safety mechanisms.">
+  <meta name="keywords" content="FreeRTOS, STM32, Real-time Systems, Embedded C, Cooling System, Watchdog, Task Scheduling, RTOS">
+  <meta name="author" content="Markku Kirjava">
+
+  <!-- Security headers -->
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="STM32 FreeRTOS Cooling Control System | Markku Kirjava">
+  <meta property="og:description" content="Real-time embedded cooling control system demonstrating FreeRTOS multitasking, task scheduling, temperature monitoring, and watchdog safety mechanisms on STM32F767ZI.">
+  <meta property="og:url" content="https://markku-github.github.io/projects/cooling_system.html">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://markku-github.github.io/projects/cooling_system.html">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/project.css">
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="manifest" href="../assets/favicon/site.webmanifest">
+  <meta name="msapplication-TileColor" content="#042b6b">
+  <meta name="theme-color" content="#042b6b">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="site-title"><a href="../index.html" style="color:inherit;text-decoration:none">Markku Kirjava</a></h1>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#projects">Projects</a>
+        <a href="../index.html#skills">Skills</a>
+        <a href="../cv.html">CV</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" id="main-content">
+    <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+
+    <div class="project-hero">
+      <h1>STM32 FreeRTOS Cooling Control System</h1>
+      <p class="lead">Real-time embedded cooling system demonstrating FreeRTOS multitasking, state machine control, and industrial-grade safety mechanisms</p>
+      <div class="project-meta">
+        <span>STM32F767ZI</span>
+        <span>FreeRTOS</span>
+        <span>Embedded C</span>
+        <span>2025</span>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>Project Overview</h2>
+      <p>This project is a teaching demonstration of industrial-grade cooling control architecture using FreeRTOS on the STM32F767ZI microcontroller. The goal was to build a production-grade real-time control system from scratch using only low-level STM32 HAL/LL drivers and FreeRTOS — without CubeMX-generated boilerplate. The system simulates a thermal management controller with simulated temperature monitoring, state machine transitions, LED status indicators, and a command interface — designed to showcase core real-time embedded systems concepts and production-ready architectural patterns.</p>
+
+      <h3>Learning Objectives</h3>
+      <p>The main objectives were to understand RTOS fundamentals through practical implementation, master concurrent task management with proper synchronization primitives, design a multi-state system architecture, and demonstrate production-grade safety mechanisms including task health monitoring and DMA-optimized I/O patterns used in real industrial systems.</p>
+    </div>
+
+    <div class="content-section">
+      <h2>Hardware Setup</h2>
+      <ul class="key-features">
+        <li>STM32F767ZI microcontroller (ARM Cortex-M7)</li>
+        <li>NUCLEO-F767ZI development board</li>
+        <li>3 × LED indicators for system state visualization (Green LD1, Blue LD2, Red LD3)</li>
+        <li>1 × User button (B1) for emergency signal simulation</li>
+        <li>USART3 (PD8/PD9) for logging to host @ 115200 baud</li>
+        <li>USART6 (PG14/PG9) for command-line interface simulation @ 115200 baud</li>
+        <li>Independent watchdog (IWDG) timer for detecting task failures</li>
+      </ul>
+      <p>The hardware setup is intentionally simple to focus on embedded software architecture. LEDs demonstrate state transitions, while UART interfaces show typical logging and control patterns found in production systems. DMA1 Stream3 accelerates UART transmission to demonstrate efficient I/O techniques.</p>
+    </div>
+
+    <div class="content-section">
+      <h2>Real-Time Architecture</h2>
+      <p>The firmware is built around 8 concurrent FreeRTOS tasks with carefully designed priorities and synchronization:</p>
+      <ul class="key-features">
+        <li><b>WatchdogTask</b> (Priority 4) — Monitors critical task heartbeats, triggers reset on failure</li>
+        <li><b>UserButtonTask</b> (Priority 3) — Emergency sensor simulation, high responsiveness</li>
+        <li><b>ControllerTask</b> (Priority 2) — Core state machine and LED control logic</li>
+        <li><b>FanControlTask</b> (Priority 2) — Actuator control (simulated fan via LED)</li>
+        <li><b>AnalysisTask</b> (Priority 1) — Temperature monitoring and data processing</li>
+        <li><b>BlueLEDTask</b> (Priority 1) — State-dependent LED pattern updates</li>
+        <li><b>LoggerTask</b> (Priority 0) — DMA-based UART logging</li>
+        <li><b>CommandTask</b> (Priority 0) — UART command parsing and execution</li>
+      </ul>
+      <p>All inter-task communication uses queues and mutexes with finite timeouts to prevent deadlocks. The watchdog monitors the 4 most critical tasks (Controller, Analysis, Logger, Command) and resets the system if any fail to report within 1500 ms.</p>
+    </div>
+
+    <div class="content-section">
+      <h2>Task Hierarchy & Communication</h2>
+      <p>The task architecture demonstrates hierarchical real-time design with clear data flow and priority-based scheduling:</p>
+      <pre><code>┌─────────────────────────────────────────────────────────────┐
+│                     FreeRTOS Scheduler                      │
+└─────────────────────────────────────────────────────────────┘
+                            ▲
+                            │
+    ┌───────────────────────┼───────────────────────┐
+    │                       │                       │
+┌───▼────┐            ┌────▼─────┐           ┌────▼──────┐
+│Watchdog│            │UserButton│           │Controller │
+│Task    │            │  Task    │           │Task       │
+│(Pri 4) │            │ (Pri 3)  │           │(Pri 2)    │
+└────────┘            └──────────┘           └───────────┘
+    │                       │                       │
+    │                       │                       │
+    │               Emergency Signal          State Machine
+    │               (High Priority)         & LED Control
+    │                       │                       │
+    │                       ▼                       │
+    ├───────────────────────┼───────────────────────┤
+    │                       │                       │
+┌───▼────┐            ┌────▼─────┐           ┌────▼──────┐
+│FanCtrl │            │ Analysis │           │  BlueLED  │
+│Task    │            │ Task     │           │  Task     │
+│(Pri 2) │            │ (Pri 1)  │           │(Pri 1)    │
+└────────┘            └──────────┘           └───────────┘
+    │                       ▲                       │
+    │                       │                       │
+Actuator                Temp Queue             Indication
+Control                 (10 items)                  │
+    │                       │                       │
+    └───────────────────────┼───────────────────────┘
+                            │
+                            ▼
+                   ┌────────────────┐
+                   │  Logger Task   │────► USART3 (DMA)
+                   │   (Pri 0)      │
+                   └────────────────┘
+                            ▲
+                            │
+                        Log Queue
+                        (20 msgs)
+                            ▲
+                            │
+                   ┌────────────────┐
+                   │ Command Task   │◄─── USART6 (ISR)
+                   │   (Pri 0)      │
+                   └────────────────┘
+                            ▲
+                            │
+                        Cmd Queue
+                        (64 chars)</code></pre>
+      <p>This hierarchical structure separates concerns: high-priority tasks handle safety (watchdog, emergency), mid-priority tasks implement control logic (state machine, actuation), and low-priority tasks handle I/O (logging, command parsing). Inter-task communication uses bounded queues (temperature, commands, logs) to prevent race conditions.</p>
+    </div>
+
+    <div class="content-section">
+      <h2>Thermal Controller State Machine</h2>
+      <p>The system implements a 5-state machine based on simulated temperature ranges. This architecture demonstrates typical industrial control patterns:</p>
+      <pre><code>IDLE (Startup)
+  ↓
+MONITORING (0°C - 19°C) — Cool zone, no active cooling
+  ↓
+COOLING (20°C - 79°C) — Operating zone, cooling proportional to temperature
+  ↓
+CRITICAL (80°C+) — High-risk zone, maximum cooling activation
+  ↓
+ALARM (Emergency) — Safety state after emergency trigger, requires manual reset</code></pre>
+
+      <h3>Status Indication via LEDs</h3>
+      <ul>
+        <li><b>Green LED (LD1)</b> — Actuator/cooling status: off in IDLE/MONITORING, variable blinking in COOLING, solid in CRITICAL</li>
+        <li><b>Blue LED (LD2)</b> — System state: slow blink (IDLE), fast blink (MONITORING/COOLING), double blink (CRITICAL), S.O.S blink (ALARM)</li>
+        <li><b>Red LED (LD3)</b> — Safety alert: active only during ALARM state</li>
+      </ul>
+    </div>
+
+    <div class="content-section">
+      <h2>Synchronization & Safety</h2>
+      <p>The system implements robust synchronization primitives:</p>
+      <ul class="key-features">
+        <li><b>xLogQueue</b> — 20 × 128-byte copy-by-value log message queue</li>
+        <li><b>xTempQueue</b> — 10-item temperature data queue for inter-task communication</li>
+        <li><b>xCmdQueue</b> — 64-character command input buffer from USART6</li>
+        <li><b>xTempMutex</b> — Protects currentTemperature global variable</li>
+        <li><b>xEmergencyMutex</b> — Protects emergencySignal flag from race conditions</li>
+      </ul>
+      <p>All mutex operations use 1000 ms timeouts, and queue operations use 100–1000 ms timeouts. This timeout-based approach prevents deadlocks that are critical in embedded systems.</p>
+    </div>
+
+    <div class="content-section">
+      <h2>Operator Interface</h2>
+      <p>The system provides a UART-based command interface (USART6 @ 115200 baud) for system control and diagnostics. In a real system, this would connect to sensors, actuators, or a supervisory control interface:</p>
+      <pre><code>temp &lt;0-100&gt;      — Inject simulated temperature value (0–100°C)
+status            — Display current state and simulated temperature
+emergency         — Simulate emergency condition
+reset             — Return to IDLE state, clear emergency flag
+perf              — Show real-time task performance metrics
+help              — Display command list</code></pre>
+
+      <h3>Example Session</h3>
+      <pre><code>$ temp 25
+Temp set to 25C
+$ status
+State: COOLING | Temp: 25C | Emerg: 0
+$ temp 85
+Temp set to 85C
+$ emergency
+EMERGENCY TRIGGERED! System entering ALARM state.
+$ reset
+System reset to IDLE state. Temp=0C, Emergency cleared.</code></pre>
+    </div>
+
+    <div class="content-section">
+      <h2>Performance & Resource Usage</h2>
+      <p>The system is highly efficient, using minimal resources on the STM32F767ZI:</p>
+      <ul class="key-features">
+        <li><b>Flash Memory:</b> ~27 KB / 2048 KB (1.3%)</li>
+        <li><b>RAM Usage:</b> ~71 KB / 512 KB (13.5%)</li>
+        <li><b>CPU Load:</b> ~4% (96% idle capacity)</li>
+        <li><b>Task Execution Time:</b> 0–51 ms depending on task complexity</li>
+        <li><b>Stack High-Water Marks:</b> &gt; 60 words per task (no overflow risk)</li>
+      </ul>
+      <p>The DMA-based logger offloads UART transmission, keeping CPU overhead below 2% for logging alone. The real-time `perf` command provides live WCET (Worst-Case Execution Time) analysis of all 8 tasks.</p>
+    </div>
+
+    <div class="content-section">
+      <h2>Watchdog & Task Health Monitoring</h2>
+      <p>The WatchdogTask implements a two-layer safety mechanism, demonstrating patterns used in industrial systems where task failure detection is critical:</p>
+      <ul class="key-features">
+        <li><b>Task-Level Monitoring:</b> 4 critical tasks (Controller, Analysis, Logger, Command) report heartbeat signatures</li>
+        <li><b>Timeout Detection:</b> 1500 ms watchdog timeout — any task failing to report triggers system reset</li>
+        <li><b>Hardware Safety:</b> Independent Watchdog (IWDG) timer (~2000 ms) as secondary layer protecting against software deadlock</li>
+        <li><b>Diagnostic Logging:</b> Reset reason recorded on next boot for post-failure analysis</li>
+      </ul>
+      <p>This redundant watchdog architecture ensures the system cannot silently hang — a core requirement in embedded safety systems. It demonstrates the defensive programming patterns essential in production control systems.</p>
+    </div>
+
+    <div class="content-section">
+      <h2>DMA-Optimized Logging</h2>
+      <p>The logger uses DMA1 Stream3 for efficient UART transmission:</p>
+      <ul class="key-features">
+        <li>512-byte DMA buffer for bulk transfers</li>
+        <li>CPU freed during transmission (no polling overhead)</li>
+        <li>Transfer-complete interrupt driven for seamless operation</li>
+        <li>Fallback to polling if DMA is busy — no data loss</li>
+        <li>Reduces logger task CPU overhead to ~2%</li>
+      </ul>
+      <p>This DMA approach allows other tasks to execute during I/O, maximizing overall system responsiveness.</p>
+    </div>
+
+    <div class="content-section">
+      <h2>Core Concepts Demonstrated</h2>
+      <ul class="key-features">
+        <li><b>RTOS Task Design:</b> Priority-based task scheduling with meaningful real-time constraints</li>
+        <li><b>Synchronization Primitives:</b> Queues and mutexes with timeout-based deadlock prevention</li>
+        <li><b>State Machine Architecture:</b> Clean, maintainable state transitions for control systems</li>
+        <li><b>Watchdog & Safety:</b> Multi-layer task health monitoring and system reset on failure detection</li>
+        <li><b>DMA-Based I/O:</b> Offloading peripheral I/O to reduce CPU load, typical in production systems</li>
+        <li><b>Performance Profiling:</b> Real-time measurement of task execution times for system analysis</li>
+        <li><b>Modular Architecture:</b> Clean separation between control logic, I/O, and safety monitoring</li>
+      </ul>
+      <p>This simulation demonstrates industrial-grade embedded software architecture. The task-based design pattern extends directly to real applications — replacing simulated temperature input with actual sensor data and LED indicators with real cooling actuators requires only module substitution, not architectural changes. This modularity is key to production-ready embedded systems.</p>
+    </div>
+
+    <div class="content-section">
+      <h2>Source Code & Documentation</h2>
+      <p>The project includes comprehensive documentation covering architecture decisions, task synchronization patterns, watchdog design rationale, and operation procedures. Doxygen-generated API documentation and troubleshooting guides are included for understanding the embedded control patterns demonstrated.</p>
+      <p style="margin-top:24px">
+        <a href="https://github.com/Markku-github/Embedded-STM32-FreeRTOS-Cooling-System" class="github-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+      </p>
+    </div>
+
+    <a href="../index.html#projects" class="back-link" style="margin-top:32px">← Back to Projects</a>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>&copy; <span id="year"></span> Markku Kirjava — Embedded Systems Engineer</small>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

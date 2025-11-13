@@ -39,6 +39,7 @@ This portfolio highlights my expertise in:
 ├── js/
 │   └── main.js             # Interactive features (project cards, footer year)
 ├── projects/
+│   ├── cooling_system.html # STM32 FreeRTOS cooling controller case study
 │   └── robotic_arm.html    # Detailed project case study
 ├── templates/
 │   ├── project-template.html   # Template for new projects

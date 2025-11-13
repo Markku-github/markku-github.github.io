@@ -10,6 +10,13 @@
   
   <!-- Project pages - add new projects here with priority 0.8 -->
   <url>
+    <loc>https://markku-github.github.io/projects/cooling_system.html</loc>
+    <lastmod>2025-11-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>https://markku-github.github.io/projects/robotic_arm.html</loc>
     <lastmod>2025-11-03</lastmod>
     <changefreq>monthly</changefreq>
