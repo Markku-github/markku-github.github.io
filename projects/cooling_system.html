@@ -64,10 +64,10 @@
 
     <div class="content-section">
       <h2>Project Overview</h2>
-      <p>This project is a teaching demonstration of industrial-grade cooling control architecture using FreeRTOS on the STM32F767ZI microcontroller. The goal was to build a production-grade real-time control system from scratch using only low-level STM32 HAL/LL drivers and FreeRTOS — without CubeMX-generated boilerplate. The system simulates a thermal management controller with simulated temperature monitoring, state machine transitions, LED status indicators, and a command interface — designed to showcase core real-time embedded systems concepts and production-ready architectural patterns.</p>
+      <p>This project is a teaching demonstration of industrial-grade cooling control architecture using FreeRTOS on the STM32F767ZI microcontroller. The goal was to build a robust real-time control system from scratch using only selected STM32 HAL drivers and FreeRTOS. The system simulates a thermal management controller with simulated temperature monitoring, state machine transitions, LED status indicators, and a command interface — designed to showcase core real-time embedded systems concepts and architecture patterns commonly used in industrial embedded software.</p>
 
       <h3>Learning Objectives</h3>
-      <p>The main objectives were to understand RTOS fundamentals through practical implementation, master concurrent task management with proper synchronization primitives, design a multi-state system architecture, and demonstrate production-grade safety mechanisms including task health monitoring and DMA-optimized I/O patterns used in real industrial systems.</p>
+      <p>The main objectives were to understand RTOS fundamentals through practical implementation, master concurrent task management with proper synchronization primitives, design a multi-state system architecture, and demonstrate robust safety mechanisms including task health monitoring and DMA-optimized I/O patterns used in real industrial systems.</p>
     </div>
 
     <div class="content-section">
@@ -263,7 +263,7 @@ System reset to IDLE state. Temp=0C, Emergency cleared.</code></pre>
         <li><b>Performance Profiling:</b> Real-time measurement of task execution times for system analysis</li>
         <li><b>Modular Architecture:</b> Clean separation between control logic, I/O, and safety monitoring</li>
       </ul>
-      <p>This simulation demonstrates industrial-grade embedded software architecture. The task-based design pattern extends directly to real applications — replacing simulated temperature input with actual sensor data and LED indicators with real cooling actuators requires only module substitution, not architectural changes. This modularity is key to production-ready embedded systems.</p>
+      <p>This simulation demonstrates a practical embedded software architecture inspired by real industrial systems. The task-based design pattern extends directly to actual applications — replacing simulated temperature input with real sensor data and LED indicators with real cooling actuators requires only module substitution, not architectural changes. This modularity is a core principle in well-structured embedded systems.</p>
     </div>
 
     <div class="content-section">
